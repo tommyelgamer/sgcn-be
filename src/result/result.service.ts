@@ -17,6 +17,7 @@ export class ResultService {
     championshipId: number,
     createResultDto: CreateResultDto,
     uploadedFile?: { filename: string; mimetype: string; filedata: Buffer },
+    hideLastResut = true,
   ) {
     if (
       (createResultDto.url && uploadedFile) ||
@@ -50,14 +51,16 @@ export class ResultService {
 
     const newResult = await this.resultRepository.save(resultToInsert);
 
-    const resultToHide = await this.findLastResultBySailingClass(
-      championshipId,
-      createResultDto.sailingClass,
-    );
+    if (hideLastResut) {
+      const resultToHide = await this.findLastResultBySailingClass(
+        championshipId,
+        createResultDto.sailingClass,
+      );
 
-    if (resultToHide) {
-      resultToHide.isHidden = true;
-      await this.update(championshipId, resultToHide.id, resultToHide);
+      if (resultToHide) {
+        resultToHide.isHidden = true;
+        await this.update(championshipId, resultToHide.id, resultToHide);
+      }
     }
 
     return newResult;
