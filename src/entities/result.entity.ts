@@ -18,7 +18,7 @@ export class Result {
   id: number;
 
   @Column({ name: 'result_name' })
-  class: string;
+  sailingClass: string;
 
   @Column({ name: 'result_publishdate' })
   publishdate: string;

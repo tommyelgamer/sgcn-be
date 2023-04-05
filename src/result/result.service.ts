@@ -25,7 +25,7 @@ export class ResultService {
       throw new BadRequestException('Only one of URL or File must be defined');
 
     const resultToInsert = new Result();
-    resultToInsert.class = createResultDto.sailingClass;
+    resultToInsert.sailingClass = createResultDto.sailingClass;
     resultToInsert.publishdate = new Date().toISOString();
     resultToInsert.isHidden = false;
     resultToInsert.championshipId = championshipId;
@@ -70,6 +70,24 @@ export class ResultService {
       },
       relations: {
         attachment: true,
+      },
+    });
+  }
+
+  async findLastResultBySailingClass(
+    championshipId: number,
+    sailingClass: string,
+  ): Promise<Result> {
+    return this.resultRepository.findOne({
+      where: {
+        sailingClass,
+        championshipId,
+      },
+      relations: {
+        attachment: true,
+      },
+      order: {
+        id: 'DESC',
       },
     });
   }
