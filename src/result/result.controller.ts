@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   UseGuards,
   UploadedFile,
+  NotImplementedException,
 } from '@nestjs/common';
 import { ResultService } from './result.service';
 import { CreateResultDto } from './dto/create-result.dto';
@@ -47,16 +48,16 @@ export class ResultController {
 
   @Get()
   findAll() {
-    return this.resultService.findAll();
+    throw new NotImplementedException();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.resultService.findOne(+id);
+    throw new NotImplementedException();
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.resultService.remove(+id);
+    throw new NotImplementedException();
   }
 }
