@@ -92,6 +92,14 @@ export class ResultService {
     });
   }
 
+  async update(
+    championshipId: number,
+    id: number,
+    updatedResult: Partial<Result>,
+  ) {
+    return this.resultRepository.save({ id, championshipId, ...updatedResult });
+  }
+
   async remove(championshipId: number, id: number): Promise<Result> {
     const resultToRemove = await this.resultRepository.findOneOrFail({
       where: {
