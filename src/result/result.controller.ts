@@ -47,8 +47,8 @@ export class ResultController {
   }
 
   @Get()
-  findAll() {
-    throw new NotImplementedException();
+  findAll(@ChampionshipDecorator('id') championshipId: number) {
+    return this.resultService.findAll(championshipId);
   }
 
   @Get(':id')
