@@ -48,7 +48,19 @@ export class ResultService {
 
     resultToInsert.attachment = resultAttachment;
 
-    return this.resultRepository.save(resultToInsert);
+    const newResult = await this.resultRepository.save(resultToInsert);
+
+    const resultToHide = await this.findLastResultBySailingClass(
+      championshipId,
+      createResultDto.sailingClass,
+    );
+
+    if (resultToHide) {
+      resultToHide.isHidden = true;
+      await this.update(championshipId, resultToHide.id, resultToHide);
+    }
+
+    return newResult;
   }
 
   async findAll(championshipId: number): Promise<Result[]> {
