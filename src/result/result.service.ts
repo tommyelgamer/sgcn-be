@@ -17,7 +17,7 @@ export class ResultService {
     championshipId: number,
     createResultDto: CreateResultDto,
     uploadedFile?: { filename: string; mimetype: string; filedata: Buffer },
-    hideLastResut = true,
+    hideLastResult = true,
   ) {
     if (
       (createResultDto.url && uploadedFile) ||
@@ -49,21 +49,23 @@ export class ResultService {
 
     resultToInsert.attachment = resultAttachment;
 
-    const newResult = await this.resultRepository.save(resultToInsert);
+    try {
+      if (hideLastResult) {
+        const resultToHide = await this.findLastResultBySailingClass(
+          championshipId,
+          createResultDto.sailingClass,
+        );
 
-    if (hideLastResut) {
-      const resultToHide = await this.findLastResultBySailingClass(
-        championshipId,
-        createResultDto.sailingClass,
-      );
-
-      if (resultToHide) {
-        resultToHide.isHidden = true;
-        await this.update(championshipId, resultToHide.id, resultToHide);
+        if (resultToHide) {
+          resultToHide.isHidden = true;
+          await this.update(championshipId, resultToHide.id, resultToHide);
+        }
       }
+    } catch (err) {
+      throw err;
+    } finally {
+      return this.resultRepository.save(resultToInsert);
     }
-
-    return newResult;
   }
 
   async findAll(championshipId: number): Promise<Result[]> {
