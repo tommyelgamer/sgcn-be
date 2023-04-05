@@ -1,1 +1,4 @@
-export class CreateResultDto {}
+export class CreateResultDto {
+  sailingClass: string;
+  url?: string;
+}
