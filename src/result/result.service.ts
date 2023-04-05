@@ -62,8 +62,16 @@ export class ResultService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} result`;
+  findOne(championshipId: number, id: number): Promise<Result> {
+    return this.resultRepository.findOne({
+      where: {
+        id: id,
+        championshipId: championshipId,
+      },
+      relations: {
+        attachment: true,
+      },
+    });
   }
 
   remove(id: number) {
