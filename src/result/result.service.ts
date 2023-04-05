@@ -51,8 +51,15 @@ export class ResultService {
     return this.resultRepository.save(resultToInsert);
   }
 
-  findAll() {
-    return `This action returns all result`;
+  findAll(championshipId: number): Promise<Result[]> {
+    return this.resultRepository.find({
+      where: {
+        championshipId: championshipId,
+      },
+      relations: {
+        attachment: true,
+      },
+    });
   }
 
   findOne(id: number) {
