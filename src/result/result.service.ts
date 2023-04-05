@@ -51,7 +51,7 @@ export class ResultService {
     return this.resultRepository.save(resultToInsert);
   }
 
-  findAll(championshipId: number): Promise<Result[]> {
+  async findAll(championshipId: number): Promise<Result[]> {
     return this.resultRepository.find({
       where: {
         championshipId: championshipId,
@@ -62,7 +62,7 @@ export class ResultService {
     });
   }
 
-  findOne(championshipId: number, id: number): Promise<Result> {
+  async findOne(championshipId: number, id: number): Promise<Result> {
     return this.resultRepository.findOne({
       where: {
         id: id,
@@ -74,7 +74,13 @@ export class ResultService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} result`;
+  async remove(championshipId: number, id: number): Promise<Result> {
+    const resultToRemove = await this.resultRepository.findOneOrFail({
+      where: {
+        id,
+        championshipId,
+      },
+    });
+    return this.resultRepository.remove(resultToRemove)[0];
   }
 }
