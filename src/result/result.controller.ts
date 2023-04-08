@@ -61,7 +61,10 @@ export class ResultController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    throw new NotImplementedException();
+  async remove(
+    @ChampionshipDecorator('id') championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.resultService.remove(championshipId, id);
   }
 }

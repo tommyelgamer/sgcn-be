@@ -131,13 +131,13 @@ export class ResultService {
     return this.resultRepository.save({ id, championshipId, ...updatedResult });
   }
 
-  async remove(championshipId: number, id: number): Promise<Result> {
-    const resultToRemove = await this.resultRepository.findOneOrFail({
+  async remove(championshipId: number, id: number): Promise<number> {
+    await this.resultRepository.findOneOrFail({
       where: {
         id,
         championshipId,
       },
     });
-    return this.resultRepository.remove(resultToRemove)[0];
+    return id;
   }
 }
