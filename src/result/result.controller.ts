@@ -9,12 +9,16 @@ import {
   UseGuards,
   UploadedFile,
   ParseIntPipe,
+  Res,
+  StreamableFile,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ResultService } from './result.service';
 import { CreateResultDto } from './dto/create-result.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import JwtAuthenticationGuard from '../authentication/guards/jwt-authentication.guard';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
+import { Readable } from 'stream';
 
 @Controller(':championshipCode/result')
 export class ResultController {
@@ -57,6 +61,27 @@ export class ResultController {
     @Param('id', ParseIntPipe) id: number,
   ) {
     return this.resultService.findOne(championshipId, id);
+  }
+
+  @Get('download/:id')
+  async downloadFile(
+    @ChampionshipDecorator('id') championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<StreamableFile> {
+    const document = await this.resultService.getResultFileById(
+      championshipId,
+      id,
+    );
+
+    const stream = Readable.from(document.attachment.file.data);
+
+    response.set({
+      'Content-Disposition': `inline; filename="${document.attachment.file.fileName}"`,
+      'Content-Type': document.attachment.file.mimetype,
+    });
+
+    return new StreamableFile(stream);
   }
 
   @Delete(':id')
