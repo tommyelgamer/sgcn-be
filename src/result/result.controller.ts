@@ -8,7 +8,6 @@ import {
   UseInterceptors,
   UseGuards,
   UploadedFile,
-  NotImplementedException,
   ParseIntPipe,
 } from '@nestjs/common';
 import { ResultService } from './result.service';
@@ -48,12 +47,12 @@ export class ResultController {
   }
 
   @Get()
-  findAll(@ChampionshipDecorator('id') championshipId: number) {
+  async findAll(@ChampionshipDecorator('id') championshipId: number) {
     return this.resultService.findAll(championshipId);
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @ChampionshipDecorator('id') championshipId: number,
     @Param('id', ParseIntPipe) id: number,
   ) {
