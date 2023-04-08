@@ -4,7 +4,7 @@ import { Result } from '../entities/result.entity';
 import { File } from '../entities/file.entity';
 import { Attachment } from '../entities/attachment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 
 @Injectable()
 export class ResultService {
@@ -68,10 +68,24 @@ export class ResultService {
     }
   }
 
-  async findAll(championshipId: number): Promise<Result[]> {
+  async findAll(
+    championshipId: number,
+    includeHiddenResults = false,
+  ): Promise<Result[]> {
+    // if (includeHiddenResults) {
+    //   return this.resultRepository.find({
+    //     where: {
+    //       championshipId: championshipId,
+    //     },
+    //     relations: {
+    //       attachment: true,
+    //     },
+    //   });
+    // }
     return this.resultRepository.find({
       where: {
         championshipId: championshipId,
+        isHidden: includeHiddenResults ? In([true, false]) : false,
       },
       relations: {
         attachment: true,

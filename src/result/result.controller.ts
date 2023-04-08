@@ -9,6 +9,7 @@ import {
   UseGuards,
   UploadedFile,
   NotImplementedException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ResultService } from './result.service';
 import { CreateResultDto } from './dto/create-result.dto';
@@ -52,8 +53,11 @@ export class ResultController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    throw new NotImplementedException();
+  findOne(
+    @ChampionshipDecorator('id') championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.resultService.findOne(championshipId, id);
   }
 
   @Delete(':id')
