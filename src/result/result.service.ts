@@ -140,4 +140,18 @@ export class ResultService {
     });
     return id;
   }
+
+  async getResultFileById(championshipId: number, id: number): Promise<Result> {
+    return this.resultRepository.findOneOrFail({
+      where: {
+        id: id,
+        championshipId: championshipId,
+      },
+      relations: {
+        attachment: {
+          file: true,
+        },
+      },
+    });
+  }
 }
