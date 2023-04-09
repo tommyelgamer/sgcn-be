@@ -72,16 +72,6 @@ export class ResultService {
     championshipId: number,
     includeHiddenResults = false,
   ): Promise<Result[]> {
-    // if (includeHiddenResults) {
-    //   return this.resultRepository.find({
-    //     where: {
-    //       championshipId: championshipId,
-    //     },
-    //     relations: {
-    //       attachment: true,
-    //     },
-    //   });
-    // }
     return this.resultRepository.find({
       where: {
         championshipId: championshipId,
