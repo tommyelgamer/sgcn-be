@@ -55,6 +55,12 @@ export class ResultController {
     return this.resultService.findAll(championshipId);
   }
 
+  @Get('includeHidden')
+  @UseGuards(JwtAuthenticationGuard)
+  async findAllWithHidden(@ChampionshipDecorator('id') championshipId: number) {
+    return this.resultService.findAll(championshipId, true);
+  }
+
   @Get(':id')
   async findOne(
     @ChampionshipDecorator('id') championshipId: number,
