@@ -2,20 +2,11 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Championship } from './championship.entity';
-
-enum ERoleName {
-  SYS_ADMIN = 'SYS_ADMIN',
-  CHAMPIONSHIP_ADMIN = 'CHAMPIONSHIP_ADMIN',
-  OFFICE = 'OFFICE',
-  JURY = 'JURY',
-  RACE_OFFICER = 'RACE_OFFICER',
-}
+import { ERoleName } from 'src/enum/role.enum';
 
 @Entity()
 export class User {
