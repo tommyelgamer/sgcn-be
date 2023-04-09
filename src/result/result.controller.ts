@@ -16,9 +16,10 @@ import { Response } from 'express';
 import { ResultService } from './result.service';
 import { CreateResultDto } from './dto/create-result.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import JwtAuthenticationGuard from '../authentication/guards/jwt-authentication.guard';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { Readable } from 'stream';
+import RoleGuard from 'src/authentication/guards/role.guard';
+import { ERoleName } from 'src/enum/role.enum';
 
 @Controller(':championshipCode/result')
 export class ResultController {
@@ -26,7 +27,13 @@ export class ResultController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(
+    RoleGuard(
+      ERoleName.SYS_ADMIN,
+      ERoleName.CHAMPIONSHIP_ADMIN,
+      ERoleName.OFFICE,
+    ),
+  )
   async create(
     @ChampionshipDecorator('id') championshipId: number,
     @Body() createResultDto: CreateResultDto,
@@ -56,7 +63,13 @@ export class ResultController {
   }
 
   @Get('includeHidden')
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(
+    RoleGuard(
+      ERoleName.SYS_ADMIN,
+      ERoleName.CHAMPIONSHIP_ADMIN,
+      ERoleName.OFFICE,
+    ),
+  )
   async findAllWithHidden(@ChampionshipDecorator('id') championshipId: number) {
     return this.resultService.findAll(championshipId, true);
   }
@@ -91,6 +104,13 @@ export class ResultController {
   }
 
   @Delete(':id')
+  @UseGuards(
+    RoleGuard(
+      ERoleName.SYS_ADMIN,
+      ERoleName.CHAMPIONSHIP_ADMIN,
+      ERoleName.OFFICE,
+    ),
+  )
   async remove(
     @ChampionshipDecorator('id') championshipId: number,
     @Param('id', ParseIntPipe) id: number,
