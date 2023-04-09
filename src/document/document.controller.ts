@@ -11,19 +11,17 @@ import {
   StreamableFile,
   Res,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import JwtAuthenticationGuard from '../authentication/guards/jwt-authentication.guard';
-import { RequestWithChampionship } from '../championship/dto/request-with-championship';
-import { RequestWithUserAndChampionship } from '../dto/request-with-user-and-championship';
 
 import { Document } from '../entities/document.entity';
 import { Readable } from 'stream';
 import { DocumentService } from './document.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { ChampionshipDecorator } from '../decorators/championship.decorator';
+import RoleGuard from 'src/authentication/guards/role.guard';
+import { ERoleName } from 'src/enum/role.enum';
 
 @Controller(':championshipCode/document')
 export class DocumentController {
@@ -31,7 +29,13 @@ export class DocumentController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(
+    RoleGuard(
+      ERoleName.SYS_ADMIN,
+      ERoleName.CHAMPIONSHIP_ADMIN,
+      ERoleName.OFFICE,
+    ),
+  )
   async create(
     @ChampionshipDecorator('id') championshipId: number,
     @Body() createDocumentDto: CreateDocumentDto,
@@ -92,6 +96,13 @@ export class DocumentController {
   }
 
   @Delete(':id')
+  @UseGuards(
+    RoleGuard(
+      ERoleName.SYS_ADMIN,
+      ERoleName.CHAMPIONSHIP_ADMIN,
+      ERoleName.OFFICE,
+    ),
+  )
   async remove(
     @ChampionshipDecorator('id') championshipId: number,
     @Param('id', ParseIntPipe) id: number,
