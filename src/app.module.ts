@@ -25,6 +25,7 @@ import { envVarsValidationSchema } from './env-vars.schema';
 import { ChampionshipFeatures } from './entities/championshipfeatures.entity';
 import { ResultModule } from './result/result.module';
 import { HealthModule } from './health/health.module';
+import { RequestModule } from './request/request.module';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { HealthModule } from './health/health.module';
     ChampionshipModule,
     ResultModule,
     HealthModule,
+    RequestModule,
   ],
 })
 export class AppModule {}
