@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -56,5 +57,20 @@ export class UserService {
       password: hashedPassword,
       role: createUserDto.role,
     });
+  }
+
+  async removeUser(championshipId: number, id: number) {
+    const userToDelete = await this.usersRepository.findOne({
+      where: {
+        id,
+        championshipId,
+      },
+    });
+
+    if (!userToDelete)
+      throw new NotFoundException(`User with id ${id} not found`);
+
+    await this.usersRepository.remove(userToDelete);
+    return id;
   }
 }

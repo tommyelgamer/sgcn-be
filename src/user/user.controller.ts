@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   NotImplementedException,
+  Param,
   ParseIntPipe,
   Patch,
   Post,
@@ -43,15 +44,18 @@ export class UserController {
     return userToReturn;
   }
 
-  @Patch()
+  @Patch(':id')
   @UseGuards(PermissionGuard(EPermission.UpdateUser))
   async editUser() {
     throw new NotImplementedException();
   }
 
-  @Delete()
+  @Delete(':id')
   @UseGuards(PermissionGuard(EPermission.DeleteUser))
-  async deleteUser() {
-    throw new NotImplementedException();
+  async deleteUser(
+    @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<number> {
+    return this.userService.removeUser(championshipId, id);
   }
 }
