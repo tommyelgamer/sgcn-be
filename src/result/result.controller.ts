@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   Res,
   StreamableFile,
+  Patch,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ResultService } from './result.service';
@@ -20,6 +21,8 @@ import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { Readable } from 'stream';
 import PermissionGuard from 'src/authentication/guards/permission.guard';
 import EPermission from 'src/enum/permission/permission.type';
+import { Result } from 'src/entities/result.entity';
+import { UpdateResultDto } from './dto/update-result.dto';
 
 @Controller(':championshipCode/result')
 export class ResultController {
@@ -89,6 +92,19 @@ export class ResultController {
     });
 
     return new StreamableFile(stream);
+  }
+
+  @Patch('setHidden/:id')
+  @UseGuards(PermissionGuard(EPermission.UpdateResultHiddenStatus))
+  async setHidden(
+    @ChampionshipDecorator('id') championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateResultDto: UpdateResultDto,
+  ) {
+    const resultToUpdate = await this.resultService.findOne(championshipId, id);
+    resultToUpdate.isHidden = updateResultDto.setHidden;
+
+    return this.resultService.update(championshipId, id, resultToUpdate);
   }
 
   @Delete(':id')
