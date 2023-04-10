@@ -8,14 +8,16 @@ import { Championship } from './entities/championship.entity';
 import { CompetitorEntry } from './entities/competitorentry.entity';
 import { Document } from './entities/document.entity';
 import { File } from './entities/file.entity';
-import { Audience } from './entities/requests/audience.entity';
+import {
+  Audience,
+  AudienceResolution,
+} from './entities/requests/audience.entity';
 import { EquipmentChange } from './entities/requests/equipmentchange.entity';
 import { ResultReview } from './entities/requests/resultreview.entity';
 import { Result } from './entities/result.entity';
 import { SailingClass } from './entities/sailingclass.entity';
 import { User } from './entities/user.entity';
 import { Image } from './entities/image.entity';
-import { Request } from './entities/requests/request.entity';
 
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -56,7 +58,6 @@ import { RequestModule } from './request/request.module';
           SailingClass,
           CompetitorEntry,
           User,
-          Request,
           Audience,
           ResultReview,
           EquipmentChange,

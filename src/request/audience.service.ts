@@ -1,9 +1,17 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { CreateAudienceDto } from './dto/audience/create-audience.dto';
 import { UpdateAudienceStatusDto } from './dto/audience/update-audience-status.dto';
+import { Repository } from 'typeorm';
+import { Audience } from 'src/entities/requests/audience.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AudienceService {
+  constructor(
+    @InjectRepository(Audience)
+    private readonly audienceRepository: Repository<Audience>,
+  ) {}
+
   async getAllMinimalAudience(championshipId: number) {
     throw new NotImplementedException();
   }
@@ -16,7 +24,18 @@ export class AudienceService {
     championshipId: number,
     createAudienceDto: CreateAudienceDto,
   ) {
-    throw new NotImplementedException();
+    const audience: Audience = {
+      championshipId: championshipId,
+      ...createAudienceDto,
+      status: [
+        {
+          status: 'PENDING',
+          date: new Date().toISOString(),
+        },
+      ],
+    };
+
+    return this.audienceRepository.save(audience);
   }
 
   async updateAudienceStatus(
