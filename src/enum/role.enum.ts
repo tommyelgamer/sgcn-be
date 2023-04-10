@@ -1,7 +1,7 @@
 import EPermission from './permission/permission.type';
 
 export enum ERoleName {
-  SYS_ADMIN = 'SYS_ADMIN',
+  // SYS_ADMIN = 'SYS_ADMIN',
   CHAMPIONSHIP_ADMIN = 'CHAMPIONSHIP_ADMIN',
   OFFICE = 'OFFICE',
   SCOREKEEPER = 'SCOREKEEPER',
@@ -10,16 +10,27 @@ export enum ERoleName {
 }
 
 export const rolePermission = {
-  [ERoleName.SYS_ADMIN]: [
-    EPermission.CreateDocument,
-    EPermission.DeleteDocument,
+  // [ERoleName.SYS_ADMIN]: [
+  //   EPermission.GetAllUsers,
+  //   EPermission.GetChampionshipUsers,
+  //   EPermission.CreateUser,
+  //   EPermission.UpdateUser,
+  //   EPermission.DeleteUser,
 
-    EPermission.CreateResult,
-    EPermission.DeleteResult,
-    EPermission.RetrieveHiddenResults,
-    EPermission.UpdateResultHiddenStatus,
-  ],
+  //   EPermission.CreateDocument,
+  //   EPermission.DeleteDocument,
+
+  //   EPermission.CreateResult,
+  //   EPermission.DeleteResult,
+  //   EPermission.RetrieveHiddenResults,
+  //   EPermission.UpdateResultHiddenStatus,
+  // ],
   [ERoleName.CHAMPIONSHIP_ADMIN]: [
+    EPermission.GetChampionshipUsers,
+    EPermission.CreateUser,
+    EPermission.UpdateUser,
+    EPermission.DeleteUser,
+
     EPermission.CreateDocument,
     EPermission.DeleteDocument,
 
