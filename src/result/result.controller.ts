@@ -18,8 +18,8 @@ import { CreateResultDto } from './dto/create-result.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { Readable } from 'stream';
-import RoleGuard from 'src/authentication/guards/role.guard';
-import { ERoleName } from 'src/enum/role.enum';
+import PermissionGuard from 'src/authentication/guards/permission.guard';
+import EPermission from 'src/enum/permission/permission.type';
 
 @Controller(':championshipCode/result')
 export class ResultController {
@@ -27,13 +27,7 @@ export class ResultController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  @UseGuards(
-    RoleGuard(
-      ERoleName.SYS_ADMIN,
-      ERoleName.CHAMPIONSHIP_ADMIN,
-      ERoleName.OFFICE,
-    ),
-  )
+  @UseGuards(PermissionGuard(EPermission.CreateResult))
   async create(
     @ChampionshipDecorator('id') championshipId: number,
     @Body() createResultDto: CreateResultDto,
@@ -63,13 +57,7 @@ export class ResultController {
   }
 
   @Get('includeHidden')
-  @UseGuards(
-    RoleGuard(
-      ERoleName.SYS_ADMIN,
-      ERoleName.CHAMPIONSHIP_ADMIN,
-      ERoleName.OFFICE,
-    ),
-  )
+  @UseGuards(PermissionGuard(EPermission.RetrieveHiddenResults))
   async findAllWithHidden(@ChampionshipDecorator('id') championshipId: number) {
     return this.resultService.findAll(championshipId, true);
   }
@@ -104,13 +92,7 @@ export class ResultController {
   }
 
   @Delete(':id')
-  @UseGuards(
-    RoleGuard(
-      ERoleName.SYS_ADMIN,
-      ERoleName.CHAMPIONSHIP_ADMIN,
-      ERoleName.OFFICE,
-    ),
-  )
+  @UseGuards(PermissionGuard(EPermission.DeleteResult))
   async remove(
     @ChampionshipDecorator('id') championshipId: number,
     @Param('id', ParseIntPipe) id: number,
