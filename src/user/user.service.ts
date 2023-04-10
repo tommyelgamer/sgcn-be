@@ -59,6 +59,14 @@ export class UserService {
     });
   }
 
+  async updateUser(
+    championshipId: number,
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersRepository.save({ id, championshipId, ...updateUserDto });
+  }
+
   async removeUser(championshipId: number, id: number) {
     const userToDelete = await this.usersRepository.findOne({
       where: {

@@ -15,6 +15,7 @@ import EPermission from 'src/enum/permission/permission.type';
 import { UserService } from './user.service';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller(':championshipCode/user')
 export class UserController {
@@ -46,8 +47,12 @@ export class UserController {
 
   @Patch(':id')
   @UseGuards(PermissionGuard(EPermission.UpdateUser))
-  async editUser() {
-    throw new NotImplementedException();
+  async editUser(
+    @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.updateUser(championshipId, id, updateUserDto);
   }
 
   @Delete(':id')
