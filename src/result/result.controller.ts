@@ -21,7 +21,6 @@ import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { Readable } from 'stream';
 import PermissionGuard from 'src/authentication/guards/permission.guard';
 import EPermission from 'src/enum/permission/permission.type';
-import { Result } from 'src/entities/result.entity';
 import { UpdateResultDto } from './dto/update-result.dto';
 
 @Controller(':championshipCode/result')
