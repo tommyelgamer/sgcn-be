@@ -1,7 +1,9 @@
+import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -43,5 +45,16 @@ export class UserService {
     }
 
     throw new NotFoundException('User not found');
+  }
+
+  async createUser(championshipId: number, createUserDto: CreateUserDto) {
+    const hashedPassword = bcrypt.hashSync(createUserDto.password, 10);
+
+    return this.usersRepository.save({
+      championshipId: championshipId,
+      username: createUserDto.username,
+      password: hashedPassword,
+      role: createUserDto.role,
+    });
   }
 }

@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -12,6 +13,7 @@ import PermissionGuard from 'src/authentication/guards/permission.guard';
 import EPermission from 'src/enum/permission/permission.type';
 import { UserService } from './user.service';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller(':championshipCode/user')
 export class UserController {
@@ -27,8 +29,18 @@ export class UserController {
 
   @Post()
   @UseGuards(PermissionGuard(EPermission.CreateUser))
-  async createUser() {
-    throw new NotImplementedException();
+  async createUser(
+    @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    const user = await this.userService.createUser(
+      championshipId,
+      createUserDto,
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userToReturn } = user;
+    return userToReturn;
   }
 
   @Patch()
