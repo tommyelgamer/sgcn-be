@@ -20,8 +20,8 @@ import { Readable } from 'stream';
 import { DocumentService } from './document.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { ChampionshipDecorator } from '../decorators/championship.decorator';
-import RoleGuard from 'src/authentication/guards/role.guard';
-import { ERoleName } from 'src/enum/role.enum';
+import PermissionGuard from 'src/authentication/guards/permission.guard';
+import EPermission from 'src/enum/permission/permission.type';
 
 @Controller(':championshipCode/document')
 export class DocumentController {
@@ -29,13 +29,7 @@ export class DocumentController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  @UseGuards(
-    RoleGuard(
-      ERoleName.SYS_ADMIN,
-      ERoleName.CHAMPIONSHIP_ADMIN,
-      ERoleName.OFFICE,
-    ),
-  )
+  @UseGuards(PermissionGuard(EPermission.CreateDocument))
   async create(
     @ChampionshipDecorator('id') championshipId: number,
     @Body() createDocumentDto: CreateDocumentDto,
@@ -96,13 +90,7 @@ export class DocumentController {
   }
 
   @Delete(':id')
-  @UseGuards(
-    RoleGuard(
-      ERoleName.SYS_ADMIN,
-      ERoleName.CHAMPIONSHIP_ADMIN,
-      ERoleName.OFFICE,
-    ),
-  )
+  @UseGuards(PermissionGuard(EPermission.DeleteDocument))
   async remove(
     @ChampionshipDecorator('id') championshipId: number,
     @Param('id', ParseIntPipe) id: number,
