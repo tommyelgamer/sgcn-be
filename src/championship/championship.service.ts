@@ -7,12 +7,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Championship } from '../entities/championship.entity';
 import { Repository } from 'typeorm';
 import { UpdateChampionshipFeaturesDto } from './dto/update-championship-feature.dto';
+import { ChampionshipFeatures } from 'src/entities/championshipfeatures.entity';
 
 @Injectable()
 export class ChampionshipService {
   constructor(
     @InjectRepository(Championship)
     private readonly championshipRepository: Repository<Championship>,
+    @InjectRepository(ChampionshipFeatures)
+    private readonly championshipFeaturesRepository: Repository<ChampionshipFeatures>,
   ) {}
 
   async getAllChampionships(): Promise<Championship[]> {
@@ -62,27 +65,11 @@ export class ChampionshipService {
 
     if (!championship) throw new NotFoundException('Championship not found');
 
-    championship.championshipFeatures.audienceIsEnabled =
-      updateChampionshipFeaturesDto.audienceIsEnabled ||
-      championship.championshipFeatures.audienceIsEnabled;
-    championship.championshipFeatures.declarationsIsEnabled =
-      updateChampionshipFeaturesDto.declarationsIsEnabled ||
-      championship.championshipFeatures.declarationsIsEnabled;
-    championship.championshipFeatures.equipmentchangeIsEnabled =
-      updateChampionshipFeaturesDto.equipmentchangeIsEnabled ||
-      championship.championshipFeatures.equipmentchangeIsEnabled;
-    championship.championshipFeatures.resultreviewIsEnabled =
-      updateChampionshipFeaturesDto.resultreviewIsEnabled ||
-      championship.championshipFeatures.resultreviewIsEnabled;
-    championship.championshipFeatures.rule42IsEnabled =
-      updateChampionshipFeaturesDto.rule42IsEnabled ||
-      championship.championshipFeatures.rule42IsEnabled;
-
-    await this.championshipRepository.update(
+    await this.championshipFeaturesRepository.update(
       {
-        id: championshipId,
+        id: championship.championshipFeaturesId,
       },
-      championship,
+      updateChampionshipFeaturesDto,
     );
 
     return championshipId;
