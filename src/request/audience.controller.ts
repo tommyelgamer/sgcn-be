@@ -32,8 +32,10 @@ export class AudienceController {
   }
 
   @Get()
-  async getAllMinimalAudience() {
-    throw new NotImplementedException();
+  async getAllMinimalAudience(
+    @ChampionshipDecorator('id') championshipId: number,
+  ) {
+    return this.audienceService.getAllMinimalAudience(championshipId);
   }
 
   @Get(':id')

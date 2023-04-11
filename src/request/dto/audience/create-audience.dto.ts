@@ -39,11 +39,6 @@ class Incident {
 
   @IsString()
   infringedRules: string;
-
-  @IsArray()
-  @ArrayMinSize(0)
-  @Type(() => AudienceParticipant)
-  witnesses: AudienceParticipant[];
 }
 
 class Hail {
@@ -96,6 +91,11 @@ export class CreateAudienceDto {
   @ArrayMinSize(1)
   @Type(() => AudienceParticipant)
   participants: AudienceParticipant[];
+
+  @IsArray()
+  @ArrayMinSize(0)
+  @Type(() => AudienceParticipant)
+  witnesses: AudienceParticipant[];
 
   @Type(() => Incident)
   incident: Incident;

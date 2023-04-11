@@ -18,7 +18,27 @@ export class AudienceService {
   ) {}
 
   async getAllMinimalAudience(championshipId: number) {
-    throw new NotImplementedException();
+    return this.audienceRepository.find({
+      where: {
+        championshipId,
+      },
+      select: {
+        id: true,
+        requester: {
+          category: true,
+          sailNumber: true,
+        },
+        participants: true,
+        witnesses: true,
+        championshipId: true,
+        status: {
+          status: true,
+          date: true,
+          place: true,
+          scheduleTime: true,
+        },
+      },
+    });
   }
 
   async getFullAudienceById(championshipId: number, id: number) {

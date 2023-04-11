@@ -34,16 +34,18 @@ export class Audience {
     sailNumber: string;
   }[];
 
+  @Column({ name: 'audience_witnesses', type: 'jsonb' })
+  witnesses: {
+    category: string;
+    sailNumber: string;
+  }[];
+
   @Column({ name: 'audience_incident', type: 'jsonb' })
   incident: {
     raceDate: string;
     raceNumber: number;
     dateTime: string;
     infringedRules: string;
-    witnesses: {
-      category: string;
-      sailNumber: string;
-    }[];
   };
 
   @Column({ name: 'audience_informed', type: 'jsonb' })
