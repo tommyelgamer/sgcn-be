@@ -40,8 +40,11 @@ export class AudienceController {
 
   @Get(':id')
   @UseGuards(PermissionGuard(EPermission.GetFullAudienceData))
-  async getFullAudienceById() {
-    throw new NotImplementedException();
+  async getFullAudienceById(
+    @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.audienceService.getAudienceById(championshipId, id);
   }
 
   @Patch(':id')

@@ -42,7 +42,12 @@ export class AudienceService {
   }
 
   async getFullAudienceById(championshipId: number, id: number) {
-    throw new NotImplementedException();
+    return this.audienceRepository.findOne({
+      where: {
+        championshipId,
+        id,
+      },
+    });
   }
 
   async getAudienceById(championshipId: number, id: number) {
