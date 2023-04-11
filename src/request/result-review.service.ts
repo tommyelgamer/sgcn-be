@@ -1,4 +1,8 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResultReview } from 'src/entities/requests/resultreview.entity';
 import { Repository } from 'typeorm';
@@ -42,6 +46,29 @@ export class ResultReviewService {
     id: number,
     updateResultReviewDto: UpdateResultReviewStatusDto,
   ) {
-    throw new NotImplementedException();
+    const resultReviewToUpdate = await this.audienceRepository.findOne({
+      where: {
+        championshipId,
+        id,
+      },
+    });
+
+    if (!resultReviewToUpdate)
+      throw new NotFoundException('Result review not found');
+
+    resultReviewToUpdate.status.unshift({
+      ...updateResultReviewDto,
+      date: new Date().toISOString(),
+    });
+
+    await this.audienceRepository.update(
+      {
+        championshipId,
+        id,
+      },
+      resultReviewToUpdate,
+    );
+
+    return id;
   }
 }

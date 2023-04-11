@@ -49,6 +49,10 @@ export class ResultReviewController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateResultReviewDto: UpdateResultReviewStatusDto,
   ) {
-    throw new NotImplementedException();
+    return this.resultReviewService.updateResultReviewStatus(
+      championshipId,
+      id,
+      updateResultReviewDto,
+    );
   }
 }
