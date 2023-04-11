@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Championship } from '../entities/championship.entity';
 import { ChampionshipMiddleware } from './middleware/championship.middleware';
@@ -11,4 +11,8 @@ import { ChampionshipController } from './championship.controller';
   controllers: [ChampionshipController],
   exports: [ChampionshipMiddleware, ChampionshipService],
 })
-export class ChampionshipModule {}
+export class ChampionshipModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ChampionshipMiddleware).forRoutes(ChampionshipController);
+  }
+}
