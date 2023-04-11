@@ -70,7 +70,8 @@ export class Audience {
   status: [
     {
       status: string;
-      comment?: string;
+      scheduleTime?: string;
+      place?: string;
       resolution?: AudienceResolution;
       date: string;
     },

@@ -15,7 +15,11 @@ export class UpdateAudienceStatusDto {
 
   @IsOptional()
   @IsString()
-  comment?: string;
+  scheduleTime?: string;
+
+  @IsOptional()
+  @IsString()
+  place?: string;
 
   @IsOptional()
   @Type(() => AudienceResolution)

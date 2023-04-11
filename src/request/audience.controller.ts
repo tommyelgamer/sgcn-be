@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   NotImplementedException,
+  Param,
   ParseIntPipe,
   Patch,
   Post,
@@ -13,6 +14,7 @@ import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import EPermission from 'src/enum/permission/permission.type';
 import { CreateAudienceDto } from './dto/audience/create-audience.dto';
 import { AudienceService } from './audience.service';
+import { UpdateAudienceStatusDto } from './dto/audience/update-audience-status.dto';
 
 @Controller(':championshipCode/request/audience')
 export class AudienceController {
@@ -41,8 +43,16 @@ export class AudienceController {
   }
 
   @Patch(':id')
-  @UseGuards(PermissionGuard(EPermission.UpdateAudienceStatus))
-  async updateAudienceStatus() {
-    throw new NotImplementedException();
+  // @UseGuards(PermissionGuard(EPermission.UpdateAudienceStatus))
+  async updateAudienceStatus(
+    @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateAudienceStatusDto: UpdateAudienceStatusDto,
+  ) {
+    return this.audienceService.updateAudienceStatus(
+      championshipId,
+      id,
+      updateAudienceStatusDto,
+    );
   }
 }

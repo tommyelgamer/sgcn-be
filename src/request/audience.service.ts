@@ -1,4 +1,8 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { CreateAudienceDto } from './dto/audience/create-audience.dto';
 import { UpdateAudienceStatusDto } from './dto/audience/update-audience-status.dto';
 import { Repository } from 'typeorm';
@@ -18,6 +22,15 @@ export class AudienceService {
 
   async getFullAudienceById(championshipId: number, id: number) {
     throw new NotImplementedException();
+  }
+
+  async getAudienceById(championshipId: number, id: number) {
+    return this.audienceRepository.findOne({
+      where: {
+        championshipId,
+        id,
+      },
+    });
   }
 
   async createAudience(
@@ -40,8 +53,26 @@ export class AudienceService {
 
   async updateAudienceStatus(
     championshipId: number,
+    id: number,
     updateAudienceStatus: UpdateAudienceStatusDto,
   ) {
-    throw new NotImplementedException();
+    const audience = await this.getAudienceById(championshipId, id);
+    if (!audience) throw new NotFoundException('Audience not found');
+    audience.status.unshift({
+      date: new Date().toISOString(),
+      ...updateAudienceStatus,
+    });
+
+    await this.audienceRepository.update(
+      {
+        id: id,
+        championshipId: championshipId,
+      },
+      {
+        ...audience,
+      },
+    );
+
+    return id;
   }
 }
