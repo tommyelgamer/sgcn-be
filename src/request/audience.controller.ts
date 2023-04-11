@@ -33,7 +33,7 @@ export class AudienceController {
 
   @Get()
   async getAllMinimalAudience(
-    @ChampionshipDecorator('id') championshipId: number,
+    @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
   ) {
     return this.audienceService.getAllMinimalAudience(championshipId);
   }
