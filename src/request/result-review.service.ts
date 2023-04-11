@@ -25,7 +25,12 @@ export class ResultReviewService {
   }
 
   async getResultReviewById(championshipId: number, id: number) {
-    throw new NotImplementedException();
+    return this.audienceRepository.findOne({
+      where: {
+        championshipId,
+        id,
+      },
+    });
   }
 
   async createResultReview(

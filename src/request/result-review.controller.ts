@@ -29,7 +29,7 @@ export class ResultReviewController {
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    throw new NotImplementedException();
+    return this.resultReviewService.getResultReviewById(championshipId, id);
   }
 
   @Post()
