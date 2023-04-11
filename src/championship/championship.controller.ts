@@ -7,6 +7,11 @@ import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 export class ChampionshipController {
   constructor(private readonly championshipService: ChampionshipService) {}
 
+  @Get()
+  async getAllChampionships() {
+    return this.championshipService.getAllChampionships();
+  }
+
   @Get(':championshipCode')
   async getChampionshipDataByCode(
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,

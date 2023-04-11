@@ -14,6 +14,9 @@ import { ChampionshipFeatures } from 'src/entities/championshipfeatures.entity';
 })
 export class ChampionshipModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ChampionshipMiddleware).forRoutes(ChampionshipController);
+    consumer
+      .apply(ChampionshipMiddleware)
+      .exclude('championship')
+      .forRoutes(ChampionshipController);
   }
 }
