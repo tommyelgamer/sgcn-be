@@ -24,7 +24,17 @@ export class ResultReviewService {
     championshipId: number,
     createResultReviewDto: CreateResultReviewDto,
   ) {
-    throw new NotImplementedException();
+    const resultReview: ResultReview = {
+      championshipId: championshipId,
+      ...createResultReviewDto,
+      status: [
+        {
+          status: 'PENDING',
+          date: new Date().toISOString(),
+        },
+      ],
+    };
+    return this.audienceRepository.save(resultReview);
   }
 
   async updateResultReviewStatus(

@@ -7,12 +7,6 @@ import {
 } from 'typeorm';
 import { Championship } from '../championship.entity';
 
-export enum EResultReviewStatus {
-  PENDING = 'PENDING',
-  AWARDED = 'AWARDED',
-  DENIED = 'DENIED',
-}
-
 @Entity()
 export class ResultReview {
   @PrimaryGeneratedColumn({ name: 'resultreview_id' })
@@ -40,12 +34,12 @@ export class ResultReview {
   @Column({ name: 'resultreview_requestedresult' })
   requestedResult: string;
 
-  @Column({ name: 'resultreview_requestText' })
+  @Column({ name: 'resultreview_requestText', nullable: true })
   requestText?: string;
 
   @Column({ name: 'resultreview_status', type: 'jsonb' })
   status: {
-    status: EResultReviewStatus;
+    status: string;
     comment?: string;
     date: string;
   }[];

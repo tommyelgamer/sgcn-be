@@ -37,7 +37,10 @@ export class ResultReviewController {
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
     @Body() createResultReviewDto: CreateResultReviewDto,
   ) {
-    throw new NotImplementedException();
+    return this.resultReviewService.createResultReview(
+      championshipId,
+      createResultReviewDto,
+    );
   }
 
   @Patch(':id')
