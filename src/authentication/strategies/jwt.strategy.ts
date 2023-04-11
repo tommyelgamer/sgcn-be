@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { UserService } from '../../user/user.service';
@@ -12,14 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly configService: ConfigService,
     private readonly userService: UserService,
   ) {
-    // super({
-    //   jwtFromRequest: ExtractJwt.fromExtractors([
-    //     (request: Request) => {
-    //       return request?.cookies?.Authentication;
-    //     },
-    //   ]),
-    //   secretOrKey: configService.get('JWT_SECRET'),
-    // });
+    const logger = new Logger(JwtStrategy.name);
     super({
       ignoreExpiration: true,
       jwtFromRequest: ExtractJwt.fromExtractors([
@@ -27,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           if (req.cookies.Authentication) {
             return req.cookies.Authentication;
           } else {
-            console.error('Error finding cookie');
+            logger.error('Error finding cookie');
           }
           return null;
         },
