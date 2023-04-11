@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ResultReview } from 'src/entities/requests/resultreview.entity';
 import { Repository } from 'typeorm';
 import { CreateResultReviewDto } from './dto/result-review/create-result-review.dto';
-import { UpdateResultReviewDto } from './dto/result-review/update-result-review.dto';
+import { UpdateResultReviewStatusDto } from './dto/result-review/update-result-review-status.dto';
 
 @Injectable()
 export class ResultReviewService {
@@ -30,7 +30,7 @@ export class ResultReviewService {
   async updateResultReviewStatus(
     championshipId: number,
     id: number,
-    updateResultReviewDto: UpdateResultReviewDto,
+    updateResultReviewDto: UpdateResultReviewStatusDto,
   ) {
     throw new NotImplementedException();
   }

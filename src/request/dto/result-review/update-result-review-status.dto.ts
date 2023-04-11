@@ -1,12 +1,7 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { EResultReviewStatus } from 'src/entities/requests/resultreview.entity';
 
-enum EResultReviewStatus {
-  PENDING = 'PENDING',
-  AWARDED = 'AWARDED',
-  DENIED = 'DENIED',
-}
-
-export class UpdateResultReviewDto {
+export class UpdateResultReviewStatusDto {
   @IsEnum(EResultReviewStatus)
   status: EResultReviewStatus;
 

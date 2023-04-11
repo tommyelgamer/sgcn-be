@@ -11,7 +11,7 @@ import {
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { CreateResultReviewDto } from './dto/result-review/create-result-review.dto';
 import { ResultReviewService } from './result-review.service';
-import { UpdateResultReviewDto } from './dto/result-review/update-result-review.dto';
+import { UpdateResultReviewStatusDto } from './dto/result-review/update-result-review-status.dto';
 
 @Controller(':championshipCode/request/resultreview')
 export class ResultReviewController {
@@ -44,7 +44,7 @@ export class ResultReviewController {
   async updateResultReview(
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateResultReviewDto: UpdateResultReviewDto,
+    @Body() updateResultReviewDto: UpdateResultReviewStatusDto,
   ) {
     throw new NotImplementedException();
   }
