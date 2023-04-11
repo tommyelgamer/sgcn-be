@@ -24,6 +24,18 @@ export class ChampionshipService {
     });
   }
 
+  async getChampionshipById(championshipId: number) {
+    return this.championshipRepository.findOne({
+      where: {
+        isActive: true,
+        id: championshipId,
+      },
+      relations: {
+        championshipFeatures: true,
+      },
+    });
+  }
+
   async getChampionshipByCode(championshipCode: string): Promise<Championship> {
     return this.championshipRepository.findOneOrFail({
       where: {
@@ -40,6 +52,7 @@ export class ChampionshipService {
   ) {
     const championship = await this.championshipRepository.findOne({
       where: {
+        isActive: true,
         id: championshipId,
       },
       relations: {
