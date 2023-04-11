@@ -1,6 +1,6 @@
-enum EAudienceRequestPermission {
+enum EAudiencePermission {
   GetFullAudienceData = 'GetFullAudienceData',
   UpdateAudienceStatus = 'UpdateAudienceStatus',
 }
 
-export default EAudienceRequestPermission;
+export default EAudiencePermission;

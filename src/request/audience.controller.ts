@@ -43,7 +43,7 @@ export class AudienceController {
   }
 
   @Patch(':id')
-  // @UseGuards(PermissionGuard(EPermission.UpdateAudienceStatus))
+  @UseGuards(PermissionGuard(EPermission.UpdateAudienceStatus))
   async updateAudienceStatus(
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
     @Param('id', ParseIntPipe) id: number,
