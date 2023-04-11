@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  NotImplementedException,
 } from '@nestjs/common';
 import { CreateAudienceDto } from './dto/audience/create-audience.dto';
 import { UpdateAudienceStatusDto } from './dto/audience/update-audience-status.dto';
