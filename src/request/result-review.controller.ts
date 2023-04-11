@@ -7,11 +7,14 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
 import { CreateResultReviewDto } from './dto/result-review/create-result-review.dto';
 import { ResultReviewService } from './result-review.service';
 import { UpdateResultReviewStatusDto } from './dto/result-review/update-result-review-status.dto';
+import PermissionGuard from 'src/authentication/guards/permission.guard';
+import EPermission from 'src/enum/permission/permission.type';
 
 @Controller(':championshipCode/request/resultreview')
 export class ResultReviewController {
@@ -44,6 +47,7 @@ export class ResultReviewController {
   }
 
   @Patch(':id')
+  @UseGuards(PermissionGuard(EPermission.UpdateResultReviewStatus))
   async updateResultReview(
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
     @Param('id', ParseIntPipe) id: number,

@@ -41,6 +41,8 @@ export const rolePermission = {
 
     EPermission.GetFullAudienceData,
     EPermission.UpdateAudienceStatus,
+
+    EPermission.UpdateResultReviewStatus,
   ],
   [ERoleName.OFFICE]: [
     EPermission.CreateDocument,
@@ -50,6 +52,8 @@ export const rolePermission = {
     EPermission.DeleteResult,
     EPermission.RetrieveHiddenResults,
     EPermission.UpdateResultHiddenStatus,
+
+    EPermission.UpdateResultReviewStatus,
   ],
   [ERoleName.SCOREKEEPER]: [
     EPermission.CreateResult,
@@ -61,5 +65,5 @@ export const rolePermission = {
     EPermission.GetFullAudienceData,
     EPermission.UpdateAudienceStatus,
   ],
-  [ERoleName.RACE_OFFICER]: [],
+  [ERoleName.RACE_OFFICER]: [EPermission.UpdateResultReviewStatus],
 };
