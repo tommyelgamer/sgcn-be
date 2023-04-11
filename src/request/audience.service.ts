@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   NotImplementedException,
@@ -56,6 +57,45 @@ export class AudienceService {
     id: number,
     updateAudienceStatus: UpdateAudienceStatusDto,
   ) {
+    switch (updateAudienceStatus.status) {
+      case 'PENDING':
+      case 'RETIRED':
+        if (
+          updateAudienceStatus.scheduleTime &&
+          updateAudienceStatus.place &&
+          updateAudienceStatus.resolution
+        )
+          throw new BadRequestException(
+            'Only status can be specified on the body when status is PENDING or RETIRED',
+          );
+        break;
+
+      case 'SCHEDULED':
+        if (
+          updateAudienceStatus.resolution &&
+          !updateAudienceStatus.scheduleTime &&
+          !updateAudienceStatus.place
+        )
+          throw new BadRequestException(
+            'When status is SCHEDULED. resolution cannot be specified, and scheduleTime and place must be',
+          );
+        break;
+
+      case 'PROCCESSED':
+        if (
+          !updateAudienceStatus.resolution &&
+          updateAudienceStatus.scheduleTime &&
+          updateAudienceStatus.place
+        )
+          throw new BadRequestException(
+            'When status is PROCCESSED. resolution must be specified, but scheduleTime and place cannot be',
+          );
+        break;
+
+      default:
+        break;
+    }
+
     const audience = await this.getAudienceById(championshipId, id);
     if (!audience) throw new NotFoundException('Audience not found');
     audience.status.unshift({
