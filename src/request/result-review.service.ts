@@ -17,7 +17,11 @@ export class ResultReviewService {
   ) {}
 
   async getAllResultReview(championshipId: number) {
-    throw new NotImplementedException();
+    return this.audienceRepository.find({
+      where: {
+        championshipId,
+      },
+    });
   }
 
   async getResultReviewById(championshipId: number, id: number) {

@@ -21,7 +21,7 @@ export class ResultReviewController {
   async getAllResultReview(
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
   ) {
-    throw new NotImplementedException();
+    return this.resultReviewService.getAllResultReview(championshipId);
   }
 
   @Get(':id')
