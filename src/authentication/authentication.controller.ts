@@ -35,4 +35,14 @@ export class AuthenticationController {
     res.setHeader('Set-Cookie', cookie);
     return res.send(user);
   }
+
+  @UseGuards(JwtAuthenticationGuard)
+  @Post('logout')
+  async logOut(@Req() request: RequestWithUser, @Res() response: Response) {
+    response.setHeader(
+      'Set-Cookie',
+      this.authenticationService.getCookieForLogOut(),
+    );
+    return response.sendStatus(200);
+  }
 }
