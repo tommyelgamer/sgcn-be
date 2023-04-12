@@ -10,7 +10,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(cookieParser());
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true,
+      origin: true,
+    }),
+  );
   app.useGlobalPipes(new ValidationPipe());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
