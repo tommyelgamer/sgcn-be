@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Logger,
   Post,
   Req,
   Res,
@@ -36,13 +37,13 @@ export class AuthenticationController {
     return res.send(user);
   }
 
+  @HttpCode(200)
   @UseGuards(JwtAuthenticationGuard)
-  @Post('logout')
-  async logOut(@Req() request: RequestWithUser, @Res() response: Response) {
-    response.setHeader(
-      'Set-Cookie',
-      this.authenticationService.getCookieForLogOut(),
-    );
-    return response.sendStatus(200);
+  @Get('logout')
+  async logOut(@Res() res: Response) {
+    const cookieForLogout = this.authenticationService.getCookieForLogOut();
+
+    res.setHeader('Set-Cookie', cookieForLogout);
+    return res.send('OK');
   }
 }
