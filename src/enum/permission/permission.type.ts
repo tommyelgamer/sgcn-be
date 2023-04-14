@@ -1,4 +1,5 @@
 import EAudiencePermission from './audience-permission.enum';
+import EChampionshipPermission from './championship-permission.enum';
 import EDocumentPermission from './documentPermission.enum';
 import EResultReviewPermission from './result-review-permission.enum';
 import EResultPermission from './resultPermission.enum';
@@ -10,6 +11,7 @@ const EPermission = {
   ...EUserPermission,
   ...EAudiencePermission,
   ...EResultReviewPermission,
+  ...EChampionshipPermission,
 };
 
 type EPermission =
@@ -17,6 +19,7 @@ type EPermission =
   | EResultPermission
   | EUserPermission
   | EAudiencePermission
-  | EResultReviewPermission;
+  | EResultReviewPermission
+  | EChampionshipPermission;
 
 export default EPermission;

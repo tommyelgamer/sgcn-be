@@ -1,7 +1,16 @@
-import { Body, Controller, Get, ParseIntPipe, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 import { ChampionshipService } from './championship.service';
 import { UpdateChampionshipFeaturesDto } from './dto/update-championship-feature.dto';
 import { ChampionshipDecorator } from 'src/decorators/championship.decorator';
+import PermissionGuard from 'src/authentication/guards/permission.guard';
+import EPermission from 'src/enum/permission/permission.type';
 
 @Controller('championship')
 export class ChampionshipController {
@@ -23,6 +32,7 @@ export class ChampionshipController {
   }
 
   @Patch(':championshipCode')
+  @UseGuards(PermissionGuard(EPermission.UpdateChampionshipFeatures))
   async updateChampionshipFeatures(
     @ChampionshipDecorator('id', ParseIntPipe) id: number,
     @Body() updateChampionshipFeaturesDto: UpdateChampionshipFeaturesDto,

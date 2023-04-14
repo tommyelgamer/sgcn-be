@@ -43,6 +43,8 @@ export const rolePermission = {
     EPermission.UpdateAudienceStatus,
 
     EPermission.UpdateResultReviewStatus,
+
+    EPermission.UpdateChampionshipFeatures,
   ],
   [ERoleName.OFFICE]: [
     EPermission.CreateDocument,
