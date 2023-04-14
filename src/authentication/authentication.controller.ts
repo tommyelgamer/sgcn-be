@@ -38,7 +38,6 @@ export class AuthenticationController {
   }
 
   @HttpCode(200)
-  @UseGuards(JwtAuthenticationGuard)
   @Get('logout')
   async logOut(@Res() res: Response) {
     const cookieForLogout = this.authenticationService.getCookieForLogOut();

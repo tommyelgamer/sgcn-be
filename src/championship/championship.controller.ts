@@ -16,7 +16,10 @@ export class ChampionshipController {
   async getChampionshipDataByCode(
     @ChampionshipDecorator('id', ParseIntPipe) championshipId: number,
   ) {
-    return this.championshipService.getChampionshipById(championshipId);
+    const championship = await this.championshipService.getChampionshipById(
+      championshipId,
+    );
+    return championship;
   }
 
   @Patch(':championshipCode')
