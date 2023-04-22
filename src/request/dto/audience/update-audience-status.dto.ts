@@ -5,6 +5,7 @@ import { AudienceResolution } from 'src/entities/requests/audience.entity';
 enum Statuses {
   'PENDING' = 'PENDING',
   'SCHEDULED' = 'SCHEDULED',
+  'INPROGRESS' = 'INPROGRESS',
   'PROCCESSED' = 'PROCCESSED',
   'RETIRED' = 'RETIRED',
 }
@@ -24,4 +25,8 @@ export class UpdateAudienceStatusDto {
   @IsOptional()
   @Type(() => AudienceResolution)
   resolution?: AudienceResolution;
+
+  @IsOptional()
+  @IsString()
+  observation: string;
 }

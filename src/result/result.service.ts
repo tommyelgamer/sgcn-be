@@ -122,12 +122,13 @@ export class ResultService {
   }
 
   async remove(championshipId: number, id: number): Promise<number> {
-    await this.resultRepository.findOneOrFail({
+    const resultToRemove = await this.resultRepository.findOneOrFail({
       where: {
         id,
         championshipId,
       },
     });
+    await this.resultRepository.remove(resultToRemove);
     return id;
   }
 

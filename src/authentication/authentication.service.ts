@@ -15,9 +15,21 @@ export class AuthenticationService {
 
   public getCookieWithJwtToken(payload: TokenPayload) {
     const token = this.jwtService.sign({ userData: payload.userData });
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      'JWT_EXPIRATION_TIME',
-    )}`;
+    // return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+    //   'JWT_EXPIRATION_TIME',
+    // )}`;
+    return token;
+  }
+
+  public getCookieWithUserData(userData: {
+    id: number;
+    championshipId: number;
+    username: string;
+    role: string;
+  }) {
+    return `UserData=${JSON.stringify(
+      userData,
+    )}; Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
   }
 
   async getAuthenticatedUser(

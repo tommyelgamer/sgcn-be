@@ -2,7 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Championship } from '../championship.entity';
@@ -12,7 +12,7 @@ export class Audience {
   @PrimaryGeneratedColumn({ name: 'audience_id' })
   id?: number;
 
-  @OneToOne(() => Championship, { cascade: true })
+  @ManyToOne(() => Championship, { cascade: true })
   @JoinColumn({ name: 'audience_championship_id' })
   championship?: Championship;
 
@@ -75,6 +75,7 @@ export class Audience {
       scheduleTime?: string;
       place?: string;
       resolution?: AudienceResolution;
+      observation?: string;
       date: string;
     },
   ];

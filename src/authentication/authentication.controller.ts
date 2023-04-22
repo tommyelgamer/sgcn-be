@@ -13,10 +13,14 @@ import { RequestWithUser } from './dto/request-with-user.dto';
 import { LocalAuthenticationGuard } from './guards/authentication.guard';
 import { Response } from 'express';
 import JwtAuthenticationGuard from './guards/jwt-authentication.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthenticationController {
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  constructor(
+    private readonly authenticationService: AuthenticationService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @UseGuards(JwtAuthenticationGuard)
   @Get()
@@ -33,7 +37,16 @@ export class AuthenticationController {
     const cookie = this.authenticationService.getCookieWithJwtToken({
       userData: user,
     });
-    res.setHeader('Set-Cookie', cookie);
+    res.cookie('Authentication', cookie, {
+      maxAge: this.configService.get<number>('JWT_EXPIRATION_TIME') * 1000,
+    });
+
+    // const cookieUserData =
+    //   this.authenticationService.getCookieWithUserData(user);
+    res.cookie('UserData', user, {
+      maxAge: this.configService.get<number>('JWT_EXPIRATION_TIME') * 1000,
+    });
+
     return res.send(user);
   }
 
@@ -42,7 +55,20 @@ export class AuthenticationController {
   async logOut(@Res() res: Response) {
     const cookieForLogout = this.authenticationService.getCookieForLogOut();
 
-    res.setHeader('Set-Cookie', cookieForLogout);
+    res.cookie(
+      'Authentication',
+      {},
+      {
+        maxAge: 1,
+      },
+    );
+    res.cookie(
+      'UserData',
+      {},
+      {
+        maxAge: 1,
+      },
+    );
     return res.send('OK');
   }
 }
